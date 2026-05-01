@@ -255,3 +255,22 @@ html::after {
 .animate-marquee-slow:hover {
   animation-play-state: paused;
 }
+
+.markdown p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.markdown strong {
+  font-weight: 600;
+  color: white;
+}
+
+.markdown ul {
+  margin-left: 16px;
+  margin-bottom: 10px;
+}
+
+.markdown li {
+  margin-bottom: 4px;
+}

@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
 import { AnimatedBackground } from '@/components/animated-background'
 import { CustomCursor } from '@/components/custom-cursor'
+import ChatWidget from '@/components/ChatWidget'
 import './globals.css'
 
 const poppins = Poppins({ 
@@ -67,6 +68,7 @@ export default function RootLayout({
           <CustomCursor />
           <AnimatedBackground />
           {children}
+          <ChatWidget />
         </ThemeProvider>
         <Analytics />
       </body>
