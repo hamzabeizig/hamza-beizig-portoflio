@@ -87,7 +87,7 @@ export default function ChatWidget() {
 
   return (
       <>
-        {/* Toggle Button */}
+        {/* Toggle Button — brand color, no theme change */}
         <button
             onClick={() => setIsOpen(!isOpen)}
             className="fixed bottom-6 right-6 w-14 h-14 rounded-full text-white shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center z-50"
@@ -109,12 +109,12 @@ export default function ChatWidget() {
 
         {/* Chat Panel */}
         <div
-            className={`fixed right-6 w-[340px] h-[480px] bg-gray-900 rounded-lg shadow-2xl z-40 flex flex-col transition-all duration-300 ${
+            className={`fixed right-6 w-[340px] h-[480px] rounded-lg shadow-2xl z-40 flex flex-col transition-all duration-300 bg-card text-card-foreground ${
                 isOpen ? 'bottom-24' : '-bottom-full'
             }`}
             style={{ border: '2px solid #52a9ff' }}
         >
-          {/* Header */}
+          {/* Header — brand gradient, stays same in both themes */}
           <div
               className="p-4 rounded-t-lg flex items-center justify-between"
               style={{ background: 'linear-gradient(to right, #52a9ff, #1a6dbf)' }}
@@ -146,12 +146,12 @@ export default function ChatWidget() {
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.length === 0 && (
                 <div className="space-y-2">
-                  <p className="text-gray-400 text-sm mb-3">Suggested questions:</p>
+                  <p className="text-muted-foreground text-sm mb-3">Suggested questions:</p>
                   {SUGGESTED_QUESTIONS.map((question, idx) => (
                       <button
                           key={idx}
                           onClick={() => sendMessage(question)}
-                          className="w-full text-left p-3 bg-gray-800 hover:bg-gray-700 text-sm rounded-lg transition-colors"
+                          className="w-full text-left p-3 bg-secondary hover:bg-border text-sm rounded-lg transition-colors"
                           style={{ color: '#52a9ff' }}
                       >
                         {question}
@@ -167,7 +167,9 @@ export default function ChatWidget() {
                 >
                   <div
                       className={`max-w-[85%] p-3 rounded-lg text-sm leading-relaxed ${
-                          msg.role === 'user' ? 'text-white' : 'bg-gray-800 text-gray-100'
+                          msg.role === 'user'
+                              ? 'text-white'
+                              : 'bg-secondary text-foreground'
                       }`}
                       style={msg.role === 'user' ? { backgroundColor: '#52a9ff' } : {}}
                   >
@@ -180,7 +182,7 @@ export default function ChatWidget() {
 
             {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-gray-800 text-gray-100 p-3 rounded-lg text-sm">
+                  <div className="bg-secondary text-foreground p-3 rounded-lg text-sm">
                     <span className="inline-block animate-pulse">...</span>
                   </div>
                 </div>
@@ -190,7 +192,7 @@ export default function ChatWidget() {
           </div>
 
           {/* Input Area */}
-          <form onSubmit={handleSubmit} className="p-4 border-t border-gray-800">
+          <form onSubmit={handleSubmit} className="p-4 border-t border-border">
             <div className="flex gap-2">
               <input
                   type="text"
@@ -199,7 +201,7 @@ export default function ChatWidget() {
                   onKeyDown={handleKeyDown}
                   placeholder="Ask me anything..."
                   disabled={isLoading}
-                  className="flex-1 bg-gray-800 text-white px-4 py-2 rounded-lg text-sm focus:outline-none disabled:opacity-50"
+                  className="flex-1 bg-secondary text-foreground placeholder:text-muted-foreground px-4 py-2 rounded-lg text-sm focus:outline-none disabled:opacity-50"
                   onFocus={(e) => (e.currentTarget.style.boxShadow = '0 0 0 2px #52a9ff')}
                   onBlur={(e) => (e.currentTarget.style.boxShadow = 'none')}
               />
