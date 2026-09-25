@@ -44,10 +44,19 @@ export default function Journey() {
   return (
     <section
       id="journey"
-      className="on-ink relative isolate w-full overflow-hidden bg-[var(--ink)] py-32 sm:py-40"
+      className="on-ink relative isolate w-full overflow-hidden py-28 sm:py-40"
     >
+      {/* Dark band + glow stop short of the edges and are clipped there, so neither the ink nor the
+          blurred halo can leak a hairline past the waves on fractional-DPR screens */}
+      <div aria-hidden className="absolute inset-x-0 inset-y-2 -z-10 overflow-hidden bg-[var(--ink)]">
+        <div
+          className="halo"
+          style={{ top: -80, left: '20%', width: 380, height: 380, background: 'var(--blue)', opacity: 0.35 }}
+        />
+      </div>
+
       {/* Top wave: light page descending into the dark band */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] leading-[0]">
+      <div className="pointer-events-none absolute inset-x-0 -top-[2px] z-[1] leading-[0]">
         <svg viewBox="0 0 1440 130" preserveAspectRatio="none" className="block h-[90px] w-full sm:h-[120px]">
           <path
             d="M0,0 L1440,0 L1440,72 C1230,20 1020,96 720,66 C420,36 240,96 0,64 Z"
@@ -62,7 +71,7 @@ export default function Journey() {
       </div>
 
       {/* Bottom wave: dark band rising back into the light page */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] leading-[0]">
+      <div className="pointer-events-none absolute inset-x-0 -bottom-[2px] z-[1] leading-[0]">
         <svg viewBox="0 0 1440 130" preserveAspectRatio="none" className="block h-[90px] w-full sm:h-[120px]">
           <path
             d="M0,42 C240,110 420,4 720,44 C1020,84 1230,120 1440,58 L1440,130 L0,130 Z"
@@ -76,10 +85,6 @@ export default function Journey() {
         </svg>
       </div>
 
-      <div
-        className="halo"
-        style={{ top: -80, left: '20%', width: 380, height: 380, background: 'var(--blue)', opacity: 0.35 }}
-      />
       <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 sm:px-10">
         <SectionHead />
 

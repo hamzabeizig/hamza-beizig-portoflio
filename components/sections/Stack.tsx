@@ -22,7 +22,7 @@ export default function Stack() {
   const [filter, setFilter] = useState<'all' | Family>('all')
 
   return (
-    <section id="stack" className="mx-auto w-full max-w-[1200px] px-6 py-24 sm:py-28">
+    <section id="stack" className="mx-auto w-full max-w-[1200px] px-6 py-16 sm:py-28">
       <SectionHeader eyebrow="Toolbox" title="The periodic table of *my stack.*" className="mb-8" />
 
       {/* Filter chips */}

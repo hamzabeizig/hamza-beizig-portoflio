@@ -74,7 +74,7 @@ function WorkCard({
 
 export default function Work() {
   return (
-    <section id="work" className="mx-auto w-full max-w-[1200px] px-6 pb-24 pt-8 sm:pb-28 sm:pt-10">
+    <section id="work" className="mx-auto w-full max-w-[1200px] px-6 pb-16 pt-8 sm:pb-28 sm:pt-10">
       <SectionHeader eyebrow="Portfolio" title="Selected *work.*" className="mb-12" />
 
       {/* Desktop bento */}

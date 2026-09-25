@@ -65,10 +65,19 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="on-ink relative isolate w-full overflow-hidden bg-[var(--ink)]"
+      className="on-ink relative isolate w-full overflow-hidden"
     >
+      {/* Dark band + glow stop short of the top edge and are clipped there, so neither the ink nor the
+          blurred halo can leak a hairline past the wave on fractional-DPR screens */}
+      <div aria-hidden className="absolute inset-x-0 bottom-0 top-2 -z-10 overflow-hidden bg-[var(--ink)]">
+        <div
+          className="halo"
+          style={{ top: -60, right: '15%', width: 360, height: 360, background: 'var(--violet)', opacity: 0.3 }}
+        />
+      </div>
+
       {/* Top wave: light page descending into the dark section */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] leading-[0]">
+      <div className="pointer-events-none absolute inset-x-0 -top-[2px] z-[1] leading-[0]">
         <svg viewBox="0 0 1440 130" preserveAspectRatio="none" className="block h-[90px] w-full sm:h-[120px]">
           <path
             d="M0,0 L1440,0 L1440,72 C1230,20 1020,96 720,66 C420,36 240,96 0,64 Z"
@@ -82,11 +91,7 @@ export default function Contact() {
         </svg>
       </div>
 
-      <div
-        className="halo"
-        style={{ top: -60, right: '15%', width: 360, height: 360, background: 'var(--violet)', opacity: 0.3 }}
-      />
-      <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16 pt-32 sm:px-10 sm:pb-20 sm:pt-40">
+      <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16 pt-28 sm:px-10 sm:pb-20 sm:pt-40">
         <div className="grid gap-10 min-[961px]:grid-cols-2">
           {/* Left */}
           <div>

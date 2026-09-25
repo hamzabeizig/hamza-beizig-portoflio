@@ -66,7 +66,7 @@ function ServiceCard({ index }: { index: number }) {
 
 export default function Services() {
   return (
-    <section id="services" className="mx-auto w-full max-w-[1200px] px-6 py-24 sm:py-28">
+    <section id="services" className="mx-auto w-full max-w-[1200px] px-6 py-16 sm:py-28">
       <SectionHeader eyebrow="What I do" title="What I do *best.*" className="mb-12" />
 
       {/* Desktop bento */}

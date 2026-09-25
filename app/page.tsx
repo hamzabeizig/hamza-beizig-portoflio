@@ -1,3 +1,4 @@
+import Nav from '@/components/sections/Nav'
 import Hero from '@/components/sections/Hero'
 import Stats from '@/components/sections/Stats'
 import Services from '@/components/sections/Services'
@@ -10,6 +11,8 @@ import Contact from '@/components/sections/Contact'
 export default function Home() {
   return (
     <main>
+      {/* Rendered outside every section so no section stacking context can cover the fixed menu */}
+      <Nav />
       <Hero />
       <Stats />
       <Services />

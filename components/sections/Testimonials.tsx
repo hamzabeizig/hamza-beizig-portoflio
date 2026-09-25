@@ -81,7 +81,7 @@ function Card({ index }: { index: number }) {
 
 export default function Testimonials() {
   return (
-    <section className="mx-auto w-full max-w-[1200px] px-6 py-24 sm:py-28">
+    <section className="mx-auto w-full max-w-[1200px] px-6 py-16 sm:py-28">
       <SectionHeader eyebrow="Testimonials" title="People I've *built* with." className="mb-12" />
 
       {/* Desktop grid */}

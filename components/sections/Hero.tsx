@@ -5,7 +5,6 @@ import { Linkedin, Sparkles } from 'lucide-react'
 import { profile, heroChat } from '@/data/profile'
 import { AccentHeading } from '@/components/kit/SectionHeading'
 import Button from '@/components/kit/Button'
-import Nav from './Nav'
 
 function CodeCard() {
   return (
@@ -98,13 +97,16 @@ export default function Hero() {
   return (
     <header
       id="about"
-      className="on-ink relative w-full overflow-hidden bg-[var(--ink)] pt-28 pb-[168px] sm:pb-[188px]"
+      className="on-ink relative isolate w-full overflow-hidden pt-28 pb-[168px] sm:pb-[188px]"
     >
-      <Nav />
-      <div className="hero-grid" />
-      <div className="halo" style={{ top: '-120px', left: '-60px', width: 420, height: 420, background: 'var(--blue)' }} />
-      <div className="halo" style={{ top: '8%', right: '-80px', width: 460, height: 460, background: 'var(--violet)' }} />
-      <div className="halo" style={{ bottom: '-60px', left: '32%', width: 380, height: 380, background: 'var(--mint)', opacity: 0.28 }} />
+      {/* Dark band + glows stop short of the bottom edge and are clipped there, so neither the ink nor the
+          blurred halos can leak a hairline past the wave on fractional-DPR screens */}
+      <div aria-hidden className="absolute inset-x-0 bottom-2 top-0 -z-10 overflow-hidden bg-[var(--ink)]">
+        <div className="hero-grid" />
+        <div className="halo" style={{ top: '-120px', left: '-60px', width: 420, height: 420, background: 'var(--blue)' }} />
+        <div className="halo" style={{ top: '8%', right: '-80px', width: 460, height: 460, background: 'var(--violet)' }} />
+        <div className="halo" style={{ bottom: '-60px', left: '32%', width: 380, height: 380, background: 'var(--mint)', opacity: 0.28 }} />
+      </div>
 
       <div className="relative z-10 mx-auto grid w-full max-w-[1200px] items-center gap-12 px-6 min-[961px]:grid-cols-[1.05fr_0.95fr] landscape-hero">
         {/* Left */}
@@ -173,7 +175,7 @@ export default function Hero() {
       </div>
 
       {/* Wave divider into the page */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] leading-[0]">
+      <div className="pointer-events-none absolute inset-x-0 -bottom-[2px] z-[1] leading-[0]">
         <svg viewBox="0 0 1440 130" preserveAspectRatio="none" className="block h-[90px] w-full sm:h-[120px]">
           <path
             d="M0,42 C240,110 420,4 720,44 C1020,84 1230,120 1440,58 L1440,130 L0,130 Z"
