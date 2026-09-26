@@ -7,6 +7,7 @@ import { SectionHeader } from '@/components/kit/SectionHeading'
 import Reveal from '@/components/kit/Reveal'
 import Carousel from '@/components/kit/Carousel'
 import Marquee from '@/components/kit/Marquee'
+import SpectrumLine from '@/components/kit/SpectrumLine'
 import { cn } from '@/lib/utils'
 
 function Quote({ text, accent }: { text: string; accent: string }) {
@@ -25,7 +26,16 @@ function Stars({ dark }: { dark?: boolean }) {
   return (
     <div className="flex gap-0.5">
       {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} size={15} className={dark ? 'text-[var(--amber)]' : 'text-[var(--amber)]'} fill="currentColor" />
+        <Star
+          key={i}
+          size={15}
+          className={cn(
+            'transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110',
+            dark ? 'text-[var(--amber)]' : 'text-[var(--amber)]',
+          )}
+          style={{ transitionDelay: `${i * 40}ms` }}
+          fill="currentColor"
+        />
       ))}
     </div>
   )
@@ -37,16 +47,22 @@ function Card({ index }: { index: number }) {
   return (
     <div
       className={cn(
-        'relative h-full overflow-hidden p-8',
-        dark ? 'card-ink' : 'card',
+        'group relative h-full overflow-hidden p-8 transition-transform duration-300 hover:-translate-y-1',
+        dark ? 'card-ink' : 'card pb-12',
       )}
     >
       {dark && (
         <div
-          className="halo"
+          className="halo transition-transform duration-500 group-hover:scale-125"
           style={{ top: -60, right: -30, width: 240, height: 240, background: 'var(--blue)' }}
         />
       )}
+      {/* Top accent bar fades in on hover, same as the Stats cards */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-[3px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: 'var(--grad)' }}
+      />
       <div className="relative z-10 flex h-full flex-col">
         <Stars dark={dark} />
         <p
@@ -63,7 +79,7 @@ function Card({ index }: { index: number }) {
             alt={t.name}
             width={44}
             height={44}
-            className="h-11 w-11 rounded-full object-cover"
+            className="h-11 w-11 rounded-full object-cover ring-2 ring-transparent transition-all duration-300 group-hover:scale-105 group-hover:ring-[var(--violet)]/40"
           />
           <div>
             <p className={cn('text-[14px] font-semibold', dark ? 'text-white' : 'text-[var(--text)]')}>
@@ -75,6 +91,7 @@ function Card({ index }: { index: number }) {
           </div>
         </div>
       </div>
+      {!dark && <SpectrumLine className="opacity-70 transition-opacity duration-300 group-hover:opacity-100" />}
     </div>
   )
 }

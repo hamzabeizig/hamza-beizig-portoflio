@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -8,6 +8,7 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import { Mail, Phone, MapPin, Linkedin, ArrowUpRight, Loader2, Check } from 'lucide-react'
 import { profile, contactTopics, mapEmbedUrl, navLinks } from '@/data/profile'
 import { AccentHeading } from '@/components/kit/SectionHeading'
+import SpectrumLine from '@/components/kit/SpectrumLine'
 import { cn } from '@/lib/utils'
 
 const schema = z.object({
@@ -92,16 +93,17 @@ export default function Contact() {
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16 pt-28 sm:px-10 sm:pb-20 sm:pt-40">
-        <div className="grid gap-10 min-[961px]:grid-cols-2">
+        {/* minmax(0,1fr) + min-w-0: a wide child (reCAPTCHA is a fixed 304px) must not stretch the column */}
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-10 min-[961px]:grid-cols-2">
           {/* Left */}
-          <div>
+          <div className="min-w-0">
             <p className="eyebrow mb-3 text-[var(--on-ink-dim)]">Contact</p>
             <AccentHeading text="Let's build something *smart.*" className="h2 text-white" />
             <p className="mt-5 max-w-[460px] text-[16px] leading-relaxed text-[var(--on-ink-muted)]">
               Have a role, a product idea, or an AI integration in mind? I&apos;m always happy to talk.
             </p>
 
-            <div className="mt-8 grid grid-cols-2 gap-3">
+            <div className="mt-8 grid grid-cols-1 gap-3 min-[440px]:grid-cols-2">
               {info.map((it) => {
                 const Icon = it.icon
                 const inner = (
@@ -142,8 +144,14 @@ export default function Contact() {
           </div>
 
           {/* Right — form */}
-          <div className="card p-7 text-[var(--text)] sm:p-8">
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+          <div className="group card relative min-w-0 overflow-hidden p-5 pb-14 text-[var(--text)] transition-transform duration-300 hover:-translate-y-1 focus-within:-translate-y-1 min-[400px]:p-7 min-[400px]:pb-14 sm:p-8 sm:pb-14">
+            <div
+              aria-hidden
+              className="absolute inset-x-0 top-0 h-[3px] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100"
+              style={{ background: 'var(--grad)' }}
+            />
+            <SpectrumLine className="opacity-70 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100" />
+            <form onSubmit={handleSubmit(onSubmit)} className="relative z-10 flex flex-col gap-5">
               <div>
                 <p className="mb-2.5 font-mono text-[11px] uppercase tracking-wider text-[var(--muted)]">
                   I&apos;m reaching out about
@@ -192,11 +200,13 @@ export default function Contact() {
                 />
               </Field>
 
-              <ReCAPTCHA
-                ref={captchaRef}
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-                onChange={(t) => setToken(t)}
-              />
+              <FitCaptcha>
+                <ReCAPTCHA
+                  ref={captchaRef}
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+                  onChange={(t) => setToken(t)}
+                />
+              </FitCaptcha>
 
               <button
                 type="submit"
@@ -259,6 +269,31 @@ export default function Contact() {
         </footer>
       </div>
     </section>
+  )
+}
+
+// The reCAPTCHA widget is a fixed 304×78 iframe; scale it down to fit narrow cards instead of overflowing
+const CAPTCHA_W = 304
+const CAPTCHA_H = 78
+
+function FitCaptcha({ children }: { children: React.ReactNode }) {
+  const boxRef = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(1)
+
+  useEffect(() => {
+    const box = boxRef.current
+    if (!box) return
+    const ro = new ResizeObserver(([entry]) => {
+      setScale(Math.min(1, entry.contentRect.width / CAPTCHA_W))
+    })
+    ro.observe(box)
+    return () => ro.disconnect()
+  }, [])
+
+  return (
+    <div ref={boxRef} className="w-full" style={{ height: CAPTCHA_H * scale }}>
+      <div style={{ width: CAPTCHA_W, transform: `scale(${scale})`, transformOrigin: '0 0' }}>{children}</div>
+    </div>
   )
 }
 

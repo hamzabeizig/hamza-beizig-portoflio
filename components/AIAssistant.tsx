@@ -82,13 +82,27 @@ export default function AIAssistant() {
         <span className="pulse-dot h-2 w-2 rounded-full bg-[var(--mint)]" />
       </button>
 
-      {/* Panel */}
+      {/* Scrim: on the mobile bottom sheet, dim the page so the chat reads as its own layer */}
+      <div
+        aria-hidden
+        onClick={() => setOpen(false)}
+        className={cn(
+          'fixed inset-0 z-50 bg-black/50 backdrop-blur-[2px] transition-opacity duration-300 sm:hidden',
+          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
+        )}
+      />
+
+      {/* Panel: solid ink (not glass) so page content never shows through */}
       <div
         role="dialog"
         aria-modal="true"
         aria-label="AI assistant"
+        style={{
+          background:
+            'radial-gradient(120% 60% at 100% 0%, color-mix(in srgb, var(--violet) 16%, transparent), transparent 60%), var(--ink2)',
+        }}
         className={cn(
-          'fixed z-50 flex flex-col overflow-hidden glass transition-all duration-300',
+          'fixed z-50 flex flex-col overflow-hidden border border-[var(--ink-line)] shadow-[0_24px_60px_-12px_rgba(0,0,0,0.55)] transition-all duration-300',
           'inset-x-0 bottom-0 h-[85dvh] rounded-t-[28px]',
           'sm:inset-x-auto sm:bottom-5 sm:right-5 sm:h-[560px] sm:w-[380px] sm:rounded-[28px]',
           open ? 'pointer-events-auto translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0',
